@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import messagebox
 import random
+import json
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 def generate():
     letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
@@ -21,6 +22,7 @@ def generate():
     random.shuffle(pass_lists)
     passw = "".join(pass_lists)
     in3.insert(0,passw)
+    
 # ---------------------------- SAVE PASSWORD ------------------------------- #
 
 def to_txt():
@@ -28,14 +30,21 @@ def to_txt():
     email = in2.get()
     password = in3.get()
     
+    data = {
+        website:{
+        "email":email,
+        "password":password,
+        }
+    }
     if len(website) == 0 or len(password) == 0 :
         messagebox.showinfo(title="Error",message="Please enter the email and password")
     else:
         swt = messagebox.askokcancel(title=website,message=f"The details entered : \nEmail: {email}\nPassword: {password}\nIs it correct ?")
         if swt:
-            txt_file = open("data.txt","a")
-            txt_file.write(f"{website},{email},{password} \n")
-            txt_file.close()
+            json_file = open("data.json","w")
+            json.dump(data,json_file,indent=2)
+            in1.delete(0,END)
+            in3.delete(0,END)
 
 # ---------------------------- UI SETUP ------------------------------- #
 window = Tk()
@@ -65,6 +74,7 @@ label2.grid(column=0,row=2)
 label3.grid(column=0,row=3)
 in1.grid(column=1,row=1,columnspan=2)
 in2.grid(column=1,row=2,columnspan=2)
+in2.insert(0,"andri@gmail.com")
 in3.grid(column=1,row=3,columnspan=2)
 generate_pass_btn.grid(column=2,row=4)
 add_btn.grid(column=1,row=4)
