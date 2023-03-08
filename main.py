@@ -30,7 +30,7 @@ def to_txt():
     email = in2.get()
     password = in3.get()
     
-    data = {
+    new_data = {
         website:{
         "email":email,
         "password":password,
@@ -41,10 +41,25 @@ def to_txt():
     else:
         swt = messagebox.askokcancel(title=website,message=f"The details entered : \nEmail: {email}\nPassword: {password}\nIs it correct ?")
         if swt:
-            json_file = open("data.json","w")
-            json.dump(data,json_file,indent=2)
-            in1.delete(0,END)
-            in3.delete(0,END)
+            try:
+                #Open json file in read mode to load the file
+                with open("data.json","r") as data_file:
+                    #Put the data into variable
+                    data = json.load(data_file)
+            #If the file is not found, then create and dump the new_data
+            except FileNotFoundError:
+                with open("data.json","w") as data_file:
+                    json.dump(new_data,data_file,indent=4) 
+
+            else:
+                #Update the data with new data
+                data.update(new_data)
+                #Open json file in write mode to dump the updated data to the json file
+                with open("data.json","w") as data_file:
+                    json.dump(data,data_file,indent=4)
+            finally:
+                in1.delete(0,END)
+                in3.delete(0,END)
 
 # ---------------------------- UI SETUP ------------------------------- #
 window = Tk()
