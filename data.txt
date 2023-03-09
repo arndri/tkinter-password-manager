@@ -1,2 +1,10 @@
+<<<<<<< HEAD
+arcorp,arndri@gmail.com,123 
+bcorp,arndri@gmail.com,123 
+ccorp,arndri@gmail.com,123 
+a,b,c
+=======
 
 a,a,a 
+>>>>>>> f93a1df64af03e65716ae4c209e956401777d5cc
+Amazon,andri@gmail.com,%%cg)jLr(sa4
