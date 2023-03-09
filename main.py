@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import messagebox
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 
 # ---------------------------- SAVE PASSWORD ------------------------------- #
@@ -7,10 +8,14 @@ def to_txt():
     website = in1.get()
     email = in2.get()
     password = in3.get()
+    
+    messagebox.showinfo
     txt_file = open("data.txt","a")
-    txt_file.write(f"{website},{email},{password} \n")
+    txt_file.write(f"{website},{email},{password}\n")
     txt_file.close()
-
+    in1.delete(0,END)
+    in2.delete(0,END)
+    in3.delete(0,END)
 # ---------------------------- UI SETUP ------------------------------- #
 window = Tk()
 window.title("Password Manager")
