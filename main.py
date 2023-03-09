@@ -1,6 +1,5 @@
 from tkinter import *
 from tkinter import messagebox
-
 import random
 import json
 # ---------------------------- SEARCH WEBSITE ------------------------------- #
@@ -52,13 +51,37 @@ def to_txt():
     email = in2.get()
     password = in3.get()
     
-    messagebox.showinfo
-    txt_file = open("data.txt","a")
-    txt_file.write(f"{website},{email},{password}\n")
-    txt_file.close()
-    in1.delete(0,END)
-    in2.delete(0,END)
-    in3.delete(0,END)
+    new_data = {
+        website:{
+        "email":email,
+        "password":password,
+        }
+    }
+    if len(website) == 0 or len(password) == 0 :
+        messagebox.showinfo(title="Error",message="Please enter the email and password")
+    else:
+        swt = messagebox.askokcancel(title=website,message=f"The details entered : \nEmail: {email}\nPassword: {password}\nIs it correct ?")
+        if swt:
+            try:
+                #Open json file in read mode to load the file
+                with open("data.json","r") as data_file:
+                    #Put the data into variable
+                    data = json.load(data_file)
+            #If the file is not found, then create and dump the new_data
+            except FileNotFoundError:
+                with open("data.json","w") as data_file:
+                    json.dump(new_data,data_file,indent=4) 
+
+            else:
+                #Update the data with new data
+                data.update(new_data)
+                #Open json file in write mode to dump the updated data to the json file
+                with open("data.json","w") as data_file:
+                    json.dump(data,data_file,indent=4)
+            finally:
+                in1.delete(0,END)
+                in3.delete(0,END)
+
 # ---------------------------- UI SETUP ------------------------------- #
 window = Tk()
 window.title("Password Manager")
